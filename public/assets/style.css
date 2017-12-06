@@ -1,0 +1,25 @@
+/* navbar */
+.navbar-default {
+    background-color: #0d47a1;
+    border-color: #0d47a1;
+}
+/* Title */
+.navbar-default .navbar-brand {
+    color: #ffffff;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #ffffff;
+}
+/* Link */
+.navbar-default .navbar-nav > li > a {
+    color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #ffffff;
+}
+
+.login-button{
+    background-color: #0d47a1;
+}
