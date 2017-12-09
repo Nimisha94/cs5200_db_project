@@ -1,0 +1,112 @@
+<nav class="navbar navbar-default bg-success">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Moviez</a>
+    </div>
+    <ul class="nav navbar-nav">
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Home</a></li>
+        <li><a href="#!/">Login</a></li>
+        <li><a href="#!/register">Register</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#!/search" class="glyphicon glyphicon-search proj-navbar-color"></a></li>
+    </ul>
+    </div>
+</nav>
+
+<div style="height: 50%; width: 50%" class="container-fluid">
+
+    <div class="form-group row">
+        <h2>Register</h2>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-form-label">Username</label>
+        <div class="col-10">
+            <input ng-model="username" class="form-control" type="text">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-form-label">Password</label>
+        <div class="col-10">
+            <input ng-model="password" class="form-control" type="password">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <h4> Type of user</h4>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typeuser" ng-value="'user'" checked>
+                User
+            </label>
+        </div>
+
+        <div class="form-check">
+            <label class="form-check-label">
+                <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typedealer" ng-value="'dealer'">
+                Dealer
+            </label>
+        </div>
+
+        <div class="form-check">
+            <label class="form-check-label">
+                <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typeproductionhouse" ng-value="'productionhouse'">
+                Production House
+            </label>
+        </div>
+
+    </div>
+
+    <div ng-show="usertype=='user'" class="form-group row">
+        <label class="col-form-label">Firstname</label>
+        <div class="col-10">
+            <input ng-model="firstname" class="form-control" type="text">
+        </div>
+    </div>
+
+    <div ng-show="usertype=='user'" class="form-group row">
+        <label class="col-form-label">Lastname</label>
+        <div class="col-10">
+            <input ng-model="lastname" class="form-control" type="text">
+        </div>
+    </div>
+
+    <div ng-show="usertype=='user'" class="form-group row">
+        <label class="col-form-label">Address</label>
+        <div class="col-10">
+            <input ng-model="address" class="form-control" type="text">
+        </div>
+    </div>
+
+    <div ng-show="usertype=='dealer'" class="form-group row">
+        <label class="col-form-label">Dealer Name</label>
+        <div class="col-10">
+            <input ng-model="dealername" class="form-control" type="text">
+        </div>
+    </div>
+
+    <div ng-show="usertype=='dealer'" class="form-group row">
+        <label class="col-form-label">Dealer Location</label>
+        <div class="col-10">
+            <input ng-model="dealerlocation" class="form-control" type="text">
+        </div>
+    </div>
+
+    <div ng-show="usertype=='productionhouse'" class="form-group row">
+        <label class="col-form-label">Production House Name</label>
+        <div class="col-10">
+            <input ng-model="productionhousename" class="form-control" type="text">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-10">
+            <a ng-click="model.register(username,password,firstname,lastname,address,usertype,dealername,dealerlocation,productionhousename)" class="btn btn-block btn-primary login-button">Register</a>
+        </div>
+    </div>
+</div>

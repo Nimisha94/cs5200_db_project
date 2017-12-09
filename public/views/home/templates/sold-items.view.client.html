@@ -1,0 +1,41 @@
+<nav class="navbar navbar-default bg-success">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Moviez</a>
+    </div>
+    <ul class="nav navbar-nav">
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Home</a></li>
+        <li><a href="#!/">Login</a></li>
+        <li ng-show="model.user.role==='dealer'"><a href="#!/user/{{model.userId}}/soldItems">My Sold Items</a></li>
+        <li><a href="#!/register">Register</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#!/search" class="glyphicon glyphicon-search proj-navbar-color"></a></li>
+    </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <br><br>
+    <div class="row">
+        <div ng-repeat="c in model.user.mySoldItems">
+            <div class="col-lg-6 col-md-6">
+                <div class="thumbnail">
+                    <div class="row">
+                        <div class="col-lg-6" align="left">
+                            <h2>OrderId: {{c.orderId}}</h2>
+                            <h2>User Id: {{c.userId}}</h2>
+                            <h3>User address: {{c.userAddress}}</h3>
+                        </div>
+                        <div class="col-lg-6" align="left">
+                            <a ng-click="model.approveOrder(c.orderId,c.userId)" class="btn btn-success">Approve Order</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<nav class="navbar navbar-default bg-success">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Moviez</a>
+    </div>
+    <ul class="nav navbar-nav">
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Home</a></li>
+        <li><a href="#!/">Login</a></li>
+        <li ng-show="model.user.role==='dealer'"><a href="#!/user/{{model.userId}}/soldItems">My Sold Items</a></li>
+        <li><a href="#!/register">Register</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#!/search" class="glyphicon glyphicon-search proj-navbar-color"></a></li>
+    </ul>
+    </div>
+</nav>
+
+<div style="height: 50%; width: 50%" class="container-fluid">
+
+    <div class="form-group row">
+        <h2>Search Movies</h2>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-10">
+            <input ng-model="searchtext" class="form-control" type="text">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-10">
+            <a ng-click="model.search(searchtext)" class="btn btn-block btn-primary login-button">Search</a>
+        </div>
+    </div>
+
+</div>
+
+<div style="padding-left: 10%;padding-right: 10%" class="container-fluid">
+    <div class="row">
+        <div ng-repeat="movie in model.movies">
+            <div class="col-sm-6 col-md-6">
+                <div class="thumbnail">
+                    <div class="row">
+                        <a ng-href="#!user/{{model.userId}}/movie/{{movie.id}}">
+                            <div class="col-lg-6" align="center">
+                                <img class="img-responsive img-dim"
+                                     ng-src="https://image.tmdb.org/t/p/w185{{movie.poster_path}}">
+                            </div>
+                            <div class="col-lg-6" align="left">
+                                <h3>{{movie.title}}</h3>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

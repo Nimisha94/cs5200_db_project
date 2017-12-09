@@ -1,0 +1,59 @@
+<nav class="navbar navbar-default bg-success">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Moviez</a>
+    </div>
+    <ul class="nav navbar-nav">
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#!/user/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+        <li><a href="#!/user/{{model.userId}}/order">Orders</a></li>
+        <li><a href="#!/">Login</a></li>
+        <li><a href="#!/register">Register</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#!/search" class="glyphicon glyphicon-search proj-navbar-color"></a></li>
+    </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div align="center" class="col-lg-4">
+            <img ng-src="https://image.tmdb.org/t/p/w300{{model.movie.poster_path}}">
+        </div>
+        <div class="col-lg-4">
+            <br><br><br>
+            <h1 align="left"><b>{{model.movie.title}}</b></h1>
+            <em align="left">{{model.movie.tagline}}</em>
+            <br><br>
+            <p>
+                <span ng-repeat="rating in model.getNum(model.movie.vote_average/2)">
+                    <i class="star fa fa-star" aria-hidden="true"></i>
+                </span>
+            </p>
+            <h3 align="left">Genre</h3>
+            <p>
+                <span ng-repeat="g in model.movie.genres">
+                        <b>{{g.name}}</b>
+                </span>
+            </p>
+
+            <h3 align="left">Overview</h3>
+            <p>{{model.movie.overview}}</p>
+        </div>
+        <div class="col-lg-4">
+            <br><br><br>
+            <h1 align="left"><b>Available Dealers</b></h1>
+            <div style="padding-left: 5%" align="left" ng-repeat="d in model.dealers" class="row">
+                    <h4><b>{{d.dealer}}</b></h4>
+                    <em>{{d.quant}} left</em>
+                    <h5>Cost: ${{d.cost}}</h5>
+                    <input style="width: 50%" ng-model="quantity" class="form-control" type="text">
+                    <br>
+                    <a ng-click="model.addToCart(d,quantity)" class="btn btn-primary login-button">Order now &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
