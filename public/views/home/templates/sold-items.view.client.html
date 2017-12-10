@@ -21,7 +21,7 @@
 <div class="container-fluid">
     <br><br>
     <div class="row">
-        <div ng-repeat="c in model.user.mySoldItems">
+        <div ng-show="model.role==='dealer'" ng-repeat="c in model.user.mySoldItems">
             <div class="col-lg-6 col-md-6">
                 <div class="thumbnail">
                     <div class="row">
@@ -32,6 +32,23 @@
                         </div>
                         <div class="col-lg-6" align="left">
                             <a ng-click="model.approveOrder(c.orderId,c.userId)" class="btn btn-success">Approve Order</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="model.role==='productionHouse'" ng-repeat="c in model.user.mySoldItems">
+            <div class="col-lg-6 col-md-6">
+                <div class="thumbnail">
+                    <div class="row">
+                        <div class="col-lg-6" align="left">
+                            <h2>OrderId: {{c.orderId}}</h2>
+                            <h2>Dealer Id: {{c.dealerId}}</h2>
+                            <h3>Dealer address: {{c.dealerLocation}}</h3>
+                        </div>
+                        <div class="col-lg-6" align="left">
+                            <a ng-click="model.approveOrder(c.orderId,c.dealerId)" class="btn btn-success">Approve Order</a>
                         </div>
                     </div>
                 </div>

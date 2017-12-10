@@ -24,9 +24,10 @@
                 if(typeof user !== undefined)
                     $location.url('/'+user.role+'/'+user.id+'/search');
             }
-            else if(usertype==='productionhouse')
+            else if(usertype==='productionHouse')
             {
                 var user = productionService.login(username,password);
+                console.log(user);
                 if(typeof user !== undefined)
                     $location.url('/'+user.role+'/'+user.id+'/search');
             }

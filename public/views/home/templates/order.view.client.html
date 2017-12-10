@@ -6,8 +6,8 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#!/user/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-        <li><a href="#!/user/{{model.userId}}/order">Orders</a></li>
+        <li><a href="#!/{{model.role}}/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+        <li><a href="#!/{{model.role}}/{{model.userId}}/order">Orders</a></li>
         <li><a href="#!/">Login</a></li>
         <li><a href="#!/register">Register</a></li>
     </ul>
@@ -21,7 +21,7 @@
 <div class="container-fluid">
     <h1>Your Orders</h1>
     <div class="row">
-        <div ng-repeat="o in model.user.myOrders">
+        <div ng-show="model.role=='user'" ng-repeat="o in model.user.myOrders">
             <h4>{{o.status}}</h4>
             <div class="col-sm-6 col-md-6">
                     <div class="thumbnail">
@@ -43,6 +43,31 @@
                             </div>
                         </div>
                     </div>
+            </div>
+        </div>
+
+        <div ng-show="model.role=='dealer'" ng-repeat="o in model.user.myPurchases">
+            <h4>{{o.status}}</h4>
+            <div class="col-sm-6 col-md-6">
+                <div class="thumbnail">
+                    <div class="row">
+                        <div ng-repeat="i in o.items">
+
+                            <!--<div class="thumbnail">-->
+                            <div class="row">
+                                <div class="col-lg-6" align="center">
+                                    <img class="img-responsive img-dim" ng-src="https://image.tmdb.org/t/p/w300{{i.movie.poster_path}}">
+                                </div>
+                                <div class="col-lg-6" align="center">
+                                    <h6>{{i.movie.title}}</h6>
+                                    <h6>Dealer: {{i.productionHouse.productionHouse}}</h6>
+                                    <h6>Quantity: {{i.quantity}}</h6>
+                                </div>
+                            </div>
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

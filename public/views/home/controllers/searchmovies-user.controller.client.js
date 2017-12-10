@@ -15,7 +15,7 @@
                 model.user = userService.findUserById(parseInt(model.userId));
             else if(model.role==='dealer')
                 model.user = dealerService.findDealerById(parseInt(model.userId));
-            else if(model.role==='productionhouse')
+            else if(model.role==='productionHouse')
                 model.user = productionService.findProductionHouseById(parseInt(model.userId));
                 console.log(model.user);
         }

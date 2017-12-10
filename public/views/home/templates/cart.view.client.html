@@ -6,8 +6,8 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#!/user/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-        <li><a href="#!/user/{{model.userId}}/order">Orders</a></li>
+        <li><a href="#!/{{model.role}}/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+        <li><a href="#!/{{model.role}}/{{model.userId}}/order">Orders</a></li>
         <li><a href="#!/">Login</a></li>
         <li><a href="#!/register">Register</a></li>
     </ul>
@@ -30,9 +30,11 @@
                         </div>
                         <div class="col-lg-6" align="left">
                             <h3>Movie: {{c.movie.title}}</h3>
-                            <h4>Dealer: {{c.dealer.dealer}}</h4>
+                            <h4 ng-show="model.role==='user'">Dealer: {{c.dealer.dealer}}</h4>
+                            <h4 ng-show="model.role==='dealer'">Production House: {{c.productionHouse.productionHouse}}</h4>
                             <h5>Quantity: {{c.quantity}}</h5>
-                            <h5>Cost: ${{c.quantity*c.dealer.cost}}</h5>
+                            <h5 ng-show="model.role==='user'">Cost: ${{c.quantity*c.dealer.cost}}</h5>
+                            <h5 ng-show="model.role==='dealer'">Cost: ${{c.quantity*c.productionHouse.cost}}</h5>
                             <a ng-click="model.removeFromCart(c)" class="btn btn-danger">Remove</a>
                         </div>
                     </div>

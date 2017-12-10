@@ -6,8 +6,8 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#!/user/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-        <li><a href="#!/user/{{model.userId}}/order">Orders</a></li>
+        <li><a href="#!/{{model.role}}/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+        <li><a href="#!/{{model.role}}/{{model.userId}}/order">Orders</a></li>
         <li><a href="#!/">Login</a></li>
         <li><a href="#!/register">Register</a></li>
     </ul>
@@ -43,7 +43,7 @@
             <h3 align="left">Overview</h3>
             <p>{{model.movie.overview}}</p>
         </div>
-        <div class="col-lg-4">
+        <div ng-show="model.role=='user'" class="col-lg-4">
             <br><br><br>
             <h1 align="left"><b>Available Dealers</b></h1>
             <div style="padding-left: 5%" align="left" ng-repeat="d in model.dealers" class="row">
@@ -53,6 +53,19 @@
                     <input style="width: 50%" ng-model="quantity" class="form-control" type="text">
                     <br>
                     <a ng-click="model.addToCart(d,quantity)" class="btn btn-primary login-button">Order now &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div ng-show="model.role=='dealer'" class="col-lg-4">
+            <br><br><br>
+            <h1 align="left"><b>Available Production Houses</b></h1>
+            <div style="padding-left: 5%" align="left" ng-repeat="d in model.productionhouses" class="row">
+                <h4><b>{{d.productionHouse}}</b></h4>
+                <em>{{d.quant}} left</em>
+                <h5>Cost: ${{d.cost}}</h5>
+                <input style="width: 50%" ng-model="quantity" class="form-control" type="text">
+                <br>
+                <a ng-click="model.addToCart(d,quantity)" class="btn btn-primary login-button">Order now &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
             </div>
         </div>
     </div>

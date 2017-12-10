@@ -10,7 +10,7 @@
         model.register = register;
 
         function register(username, password, firstname, lastname, address, usertype, dealerName, dealerLocation,
-                          productionHouseName)
+                          productionHouseName, location)
         {
             //var user=null;
             if (usertype==='user'){
@@ -37,19 +37,22 @@
                     dealerName: dealerName,
                     dealerLocation: dealerLocation,
                     movies: [{Id:985, quantity: 3, cost: 25},{Id:984, quantity: 3, cost: 10}],
+                    cart: [],
                     myPurchases: [],
                     mySoldItems: []
                 };
                 console.log(dealerService.register(dealer));
                 $location.url('/');
             }
-            else if (usertype==='productionhouse'){
+            else if (usertype==='productionHouse'){
                 var productionHouse = {
                     id: 456,
                     username: username,
                     password: password,
                     role: usertype,
                     productionHouseName: productionHouseName,
+                    location: location,
+                    movies: [{Id:981, quantity: 200, cost: 25},{Id:982, quantity: 300, cost: 10}],
                     mySoldItems: []
                 };
                 console.log(productionService.register(productionHouse));

@@ -8,7 +8,8 @@
     <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Home</a></li>
         <li><a href="#!/">Login</a></li>
-        <li ng-show="model.user.role==='dealer'"><a href="#!/user/{{model.userId}}/soldItems">My Sold Items</a></li>
+        <li ng-show="model.user.role==='dealer'"><a href="#!/{{model.role}}/{{model.userId}}/soldItems">My Sold Items</a></li>
+        <li ng-show="model.user.role==='productionHouse'"><a href="#!/{{model.role}}/{{model.userId}}/soldItems">My Sold Items</a></li>
         <li><a href="#!/register">Register</a></li>
     </ul>
 
@@ -44,7 +45,7 @@
             <div class="col-sm-6 col-md-6">
                 <div class="thumbnail">
                     <div class="row">
-                        <a ng-href="#!user/{{model.userId}}/movie/{{movie.id}}">
+                        <a ng-href="#!{{model.role}}/{{model.userId}}/movie/{{movie.id}}">
                             <div class="col-lg-6" align="center">
                                 <img class="img-responsive img-dim"
                                      ng-src="https://image.tmdb.org/t/p/w185{{movie.poster_path}}">

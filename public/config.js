@@ -20,27 +20,27 @@
                 controller: 'SearchMoviesUserController',
                 controllerAs:'model'
             })
-            .when('/user/:userId/movie/:movieId', {
+            .when('/:role/:userId/movie/:movieId', {
                 templateUrl: 'views/movie/templates/movie.view.client.html',
                 controller: 'MovieController',
                 controllerAs:'model'
             })
-            .when('/user/:userId/cart', {
+            .when('/:role/:userId/cart', {
                 templateUrl: 'views/home/templates/cart.view.client.html',
                 controller: 'CartController',
                 controllerAs:'model'
             })
-            .when('/user/:userId/orderconfirmation', {
+            .when('/:role/:userId/orderconfirmation', {
                 templateUrl: 'views/home/templates/order-confirm.view.client.html',
                 controller: 'OrderConfirmController',
                 controllerAs:'model'
             })
-            .when('/user/:userId/order', {
+            .when('/:role/:userId/order', {
                 templateUrl: 'views/home/templates/order.view.client.html',
                 controller: 'OrderController',
                 controllerAs:'model'
             })
-            .when('/user/:userId/soldItems', {
+            .when('/:role/:userId/soldItems', {
                 templateUrl: 'views/home/templates/sold-items.view.client.html',
                 controller: 'SoldItemsController',
                 controllerAs:'model'

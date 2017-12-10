@@ -13,6 +13,7 @@
             dealerName: "Dealer1",
             dealerLocation: "d1",
             movies: [{Id:985, quantity: 3, cost: 25}],
+            cart: [],
             myPurchases: [],
             mySoldItems: []
         },
@@ -24,6 +25,7 @@
             dealerName: "Dealer2",
             dealerLocation: "d2",
             movies: [{Id:984, quantity: 3, cost: 10}],
+            cart: [],
             myPurchases: [],
             mySoldItems: []
         }];
@@ -33,7 +35,11 @@
             login: login,
             findMovie: findMovie,
             addToSoldItems: addToSoldItems,
-            findDealerById: findDealerById
+            findDealerById: findDealerById,
+            addToCart: addToCart,
+            addToOrder: addToOrder,
+            changeOrderStatus: changeOrderStatus,
+            updateMovieQuantity: updateMovieQuantity
         };
 
         return api;
@@ -95,6 +101,65 @@
                 }
             }
             console.log(dealers);
+        }
+
+        function addToCart(userId, orderObj) {
+            for(var i=0;i<dealers.length;i++){
+                if(dealers[i].id===userId){
+                    dealers[i].cart.push(orderObj);
+                }
+            }
+        }
+
+        function addToOrder(dealerId) {
+
+            for(var i=0;i<dealers.length;i++){
+                if(dealerId===dealers[i].id){
+                    var order={
+                        id: dealers[i].myPurchases.length,
+                        items: dealers[i].cart,
+                        status: 'Order placed'
+                    };
+                    dealers[i].myPurchases.push(order);
+                    dealers[i].cart=[];
+                }
+            }
+        }
+
+        function changeOrderStatus(orderId, dealerId) {
+            console.log(dealers);
+            for(var i=0;i<dealers.length;i++){
+                if(dealerId===dealers[i].id){
+                    orders=dealers[i].myPurchases;
+                    for(var j=0;j<orders.length;j++){
+                        if(orderId===orders[j].id){
+                            orders[j].status="Delivered";
+                            console.log(orders[j]);
+                            for(var k=0;k<orders[j].items.length;k++){
+                                var o={
+                                    Id: orders[j].items[k].movie.id,
+                                    quantity: orders[j].items[k].quantity,
+                                    cost: orders[j].items[k].productionHouse.cost + (orders[j].items[k].productionHouse.cost * 20/100)
+                                };
+                                dealers[i].movies.push(o);
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        function updateMovieQuantity(dealerId, movieId, quantity) {
+            for(var i=0;i<dealers.length;i++){
+                if(dealerId===dealers[i].id){
+                    for(var j=0;j<dealers[i].movies.length;j++){
+                        if(movieId===dealers[i].movies[j].Id){
+                            dealers[i].movies[j].quantity-=quantity;
+                        }
+                    }
+                }
+            }
         }
     }
 })();
