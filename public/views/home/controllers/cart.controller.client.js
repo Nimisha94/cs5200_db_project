@@ -63,7 +63,10 @@
                         dealerService.updateMovieQuantity(parseInt(key),dealer_req[key][i][0].id,dealer_req[key][i][1]);
                     }
                 }
-                userService.addToOrder(parseInt(model.userId));
+                userService.addToOrder(parseInt(model.userId))
+                    .then(function (response) {
+
+                    });
             }
             else if(model.role==='dealer'){
                 var prod_req={};

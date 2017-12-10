@@ -30,6 +30,8 @@ app.get('/api/login', login);
 app.get('/api/user/:userId', findUserById);
 app.post('/api/user/:userId/cart', addToCart);
 app.post('/api/user/:userId/removeFromCart', removeFromCart);
+app.post('/api/user/:userId/addToOrder', addToOrder);
+app.post('/api/user/:userId/changeOrderStatus', changeOrderStatus);
 
 function register(req, res) {
     var user = req.body;
@@ -86,6 +88,38 @@ function addToCart(req, res) {
             res.status(200);
         }
     }
+}
+
+function addToOrder(req, res) {
+    var userId = parseInt(req.params.userId);
+    for(var i=0;i<users.length;i++){
+        if(userId===users[i].id){
+            var order={
+                id: users[i].myOrders.length,
+                items: users[i].cart,
+                status: 'Order placed'
+            };
+            users[i].myOrders.push(order);
+            users[i].cart=[];
+        }
+    }
+    res.sendStatus(200);
+}
+
+function changeOrderStatus(req, res) {
+    var userId = parseInt(req.params.userId);
+    var orderId = parseInt(req.body.orderId);
+    for(var i=0;i<users.length;i++){
+        if(userId===users[i].id){
+            orders=users[i].myOrders;
+            for(var j=0;j<orders.length;j++){
+                if(orderId===orders[j].id){
+                    orders[j].status="Delivered";
+                }
+            }
+        }
+    }
+    res.sendStatus(200);
 }
 
 
