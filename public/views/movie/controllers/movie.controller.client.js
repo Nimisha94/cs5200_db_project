@@ -47,7 +47,10 @@
                     dealer: dealer,
                     quantity: quantity
                 };
-                userService.addToCart(parseInt(model.userId), d);
+                userService.addToCart(parseInt(model.userId), d)
+                    .then(function (res) {
+
+                    });
             }
             if(model.role==='dealer'){
                 var d={

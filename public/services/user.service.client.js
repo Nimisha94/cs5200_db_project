@@ -5,29 +5,6 @@
 
     function userService($http) {
 
-        var users=[{
-            id: 123,
-            username: "u1",
-            password: "u1",
-            role: "user",
-            firstName: "u1",
-            lastName: "u1",
-            address: "u1",
-            cart: [],
-            myOrders:[]
-        },
-        {
-            id: 234,
-            username: "u2",
-            password: "u2",
-            role: "user",
-            firstName: "u2",
-            lastName: "u2",
-            address: "u2",
-            cart: [],
-            myOrders:[]
-        }
-        ];
 
         var api={
             register: register,
@@ -42,38 +19,63 @@
         return api;
 
         function register(user) {
-            users.push(user);
+            var url = '/api/register';
+            return $http.post(url,user)
+                .then(function (response) {
+                    return response.data;
+                });
+            /*users.push(user);
             console.log(users);
-            return user;
+            return user;*/
         }
 
         function login(username,password) {
-            for(var i=0;i<users.length;i++){
+            var url = '/api/login?username='+username+'&password='+password;
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
+            /*for(var i=0;i<users.length;i++){
                 if(users[i].username===username && users[i].password===password){
                     return users[i];
                 }
             }
-            return null;
+            return null;*/
         }
 
         function addToCart(userId, orderObj) {
-            for(var i=0;i<users.length;i++){
+            var url = '/api/user/'+userId+'/cart';
+            return $http.post(url, orderObj)
+                .then(function (response) {
+                    return response.data;
+                });
+            /*for(var i=0;i<users.length;i++){
                 if(users[i].id===userId){
                     users[i].cart.push(orderObj);
                 }
-            }
+            }*/
         }
 
         function findUserById(userId) {
-            for(var i=0;i<users.length;i++){
+            var url = '/api/user/'+userId;
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
+            /*for(var i=0;i<users.length;i++){
                 if(users[i].id===userId){
                     return users[i];
                 }
-            }
+            }*/
         }
 
         function removeFromCart(userId, cartItem) {
-            var useridx=-1,cartidx=-1;
+            var url = '/api/user/'+userId+'/removeFromCart';
+            return $http.post(url,cartItem)
+                .then(function (response) {
+                    return response.data;
+                });
+            /*var useridx=-1,cartidx=-1;
             for(var i=0;i<users.length;i++){
                 if(userId===users[i].id){
                     var cart=users[i].cart;
@@ -86,7 +88,7 @@
                     }
                 }
             }
-            users[useridx].cart.splice(cartidx,1);
+            users[useridx].cart.splice(cartidx,1);*/
         }
 
         function addToOrder(userId) {

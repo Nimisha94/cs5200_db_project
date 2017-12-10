@@ -11,8 +11,14 @@
         model.role = $routeParams['role'];
 
         function init() {
-            if(model.role==='user')
-                model.user = userService.findUserById(parseInt(model.userId));
+            if(model.role==='user'){
+                userService.findUserById(parseInt(model.userId))
+                    .then(function (user) {
+                        console.log(user);
+                        model.user = user;
+                    });
+            }
+                //model.user = userService.findUserById(parseInt(model.userId));
             else if(model.role==='dealer')
                 model.user = dealerService.findDealerById(parseInt(model.userId));
             else if(model.role==='productionHouse')

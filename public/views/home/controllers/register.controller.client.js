@@ -25,7 +25,10 @@
                     cart: [],
                     myOrders:[]
                 };
-                console.log(userService.register(user));
+                userService.register(user)
+                    .then(function (user) {
+                        console.log(user);
+                    });
                 $location.url('/');
             }
             else if (usertype==='dealer'){

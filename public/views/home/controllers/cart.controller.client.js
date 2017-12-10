@@ -3,7 +3,7 @@
         .module('Moviez')
         .controller('CartController',CartController);
 
-    function CartController(userService, dealerService, productionService, $routeParams, $location) {
+    function CartController(userService, dealerService, productionService, $routeParams, $location, $route) {
 
         var model=this;
 
@@ -11,8 +11,14 @@
         model.userId = $routeParams['userId'];
 
         function init() {
-            if(model.role==='user')
-                model.user = userService.findUserById(parseInt(model.userId));
+            if(model.role==='user'){
+                userService.findUserById(parseInt(model.userId))
+                    .then(function (user) {
+                        console.log(user);
+                        model.user = user;
+                    })
+            }
+                //model.user = userService.findUserById(parseInt(model.userId));
             if(model.role==='dealer')
                 model.user = dealerService.findDealerById(parseInt(model.userId));
         }
@@ -24,8 +30,13 @@
         model.placeOrder = placeOrder;
         
         function removeFromCart(cartItem) {
-            if(model.role==='user')
-                userService.removeFromCart(parseInt(model.userId),cartItem);
+            if(model.role==='user'){
+                userService.removeFromCart(parseInt(model.userId), cartItem)
+                    .then(function (response) {
+                        $route.reload();
+                    });
+            }
+                //userService.removeFromCart(parseInt(model.userId),cartItem);
             if(model.role==='dealer')
                 dealerService.removeFromCart(parseInt(model.userId), cartItem);
         }

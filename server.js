@@ -21,5 +21,5 @@ app.use(passport.session());
 
 var port = process.env.PORT || 4000;
 
-//require("./project/app");
+require("./project/app");
 app.listen(port);
