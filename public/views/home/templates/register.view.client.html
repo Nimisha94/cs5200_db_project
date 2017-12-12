@@ -55,7 +55,7 @@
 
         <div class="form-check">
             <label class="form-check-label">
-                <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typeproductionhouse" ng-value="'productionhouse'">
+                <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typeproductionhouse" ng-value="'productionHouse'">
                 Production House
             </label>
         </div>
@@ -97,14 +97,14 @@
         </div>
     </div>
 
-    <div ng-show="usertype=='productionhouse'" class="form-group row">
+    <div ng-show="usertype=='productionHouse'" class="form-group row">
         <label class="col-form-label">Production House Name</label>
         <div class="col-10">
             <input ng-model="productionhousename" class="form-control" type="text">
         </div>
     </div>
 
-    <div ng-show="usertype=='productionhouse'" class="form-group row">
+    <div ng-show="usertype=='productionHouse'" class="form-group row">
         <label class="col-form-label">Production House Location</label>
         <div class="col-10">
             <input ng-model="productionhouselocation" class="form-control" type="text">

@@ -17,8 +17,12 @@
                         model.user = dealer;
                     });
             }
-            else if(model.role==='productionHouse')
-                model.user = productionService.findProductionHouseById(parseInt(model.userId));
+            else if(model.role==='productionHouse'){
+                productionService.findProductionHouseById(parseInt(model.userId))
+                    .then(function (prod) {
+                        model.user = prod;
+                    });
+            }
         }
 
         init();

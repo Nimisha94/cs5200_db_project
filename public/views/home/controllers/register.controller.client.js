@@ -61,7 +61,10 @@
                     movies: [{Id:981, quantity: 200, cost: 25},{Id:982, quantity: 300, cost: 10}],
                     mySoldItems: []
                 };
-                console.log(productionService.register(productionHouse));
+                productionService.register(productionHouse)
+                    .then(function (prod) {
+                        console.log(prod);
+                    });
                 $location.url('/');
             }
 

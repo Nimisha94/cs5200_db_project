@@ -28,8 +28,11 @@
             }
 
             else if(model.role==='productionHouse')
-                model.user = productionService.findProductionHouseById(parseInt(model.userId));
-                console.log(model.user);
+                productionService.findProductionHouseById(parseInt(model.userId))
+                    .then(function (prod) {
+                        console.log(prod);
+                        model.user = prod;
+                    });
         }
 
         init();

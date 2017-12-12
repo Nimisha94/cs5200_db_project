@@ -25,8 +25,12 @@
                         model.dealers = dealers;
                     });
             }
-            if(model.role==='dealer')
-                model.productionhouses = productionService.findMovie(parseInt(movieId));
+            if(model.role==='dealer') {
+                productionService.findMovie(parseInt(movieId))
+                    .then(function (productionhouses) {
+                        model.productionhouses = productionhouses;
+                    })
+            }
         }
 
         init();

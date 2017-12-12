@@ -38,74 +38,61 @@
         return api;
 
         function register(productionhouse) {
-            productionhouses.push(productionhouse);
-            console.log(productionhouses);
-            return productionhouse;
+            var url = '/api/production/register';
+            return $http.post(url,productionhouse)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function login(username, password) {
-            for(var i=0;i<productionhouses.length;i++){
-                if(productionhouses[i].username===username && productionhouses[i].password===password){
-                    return productionhouses[i];
-                }
-            }
-            return null;
+            var url = '/api/production/login?username='+username+'&password='+password;
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function findProductionHouseById(prodId) {
-            for(var i=0;i<productionhouses.length;i++){
-                if(productionhouses[i].id===prodId){
-                    return productionhouses[i];
-                }
-            }
+            var url = '/api/production/'+prodId;
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function findMovie(movieId) {
-            var d=[];
-            for(var i=0;i<productionhouses.length;i++){
-                var movies=productionhouses[i].movies;
-                //console.log('movies--',movies[0].Id);
-                for(var j=0;j<movies.length;j++){
-                    if(movieId===movies[j].Id){
-                        var m={
-                            productionHouseId: productionhouses[i].id,
-                            productionHouse: productionhouses[i].productionHouseName,
-                            quant: movies[j].quantity,
-                            cost: movies[j].cost
-                        };
-                        d.push(m);
-                    }
-                }
-            }
-            return d;
+            var url = '/api/production/findMovie/'+movieId;
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function addToSoldItems(productionHouseId, items, orderId, dealerId, dealerLocation) {
-            for(var i=0;i<productionhouses.length;i++){
-                if(productionHouseId===productionhouses[i].id){
-                    var o={
-                        orderId: orderId,
-                        items: items,
-                        status: "Order Placed",
-                        dealerId: dealerId,
-                        dealerLocation: dealerLocation
-                    };
-                    productionhouses[i].mySoldItems.push(o);
-                }
-            }
-            console.log(productionhouses);
+            var url = '/api/production/'+productionHouseId+'/addToSoldItems';
+            var obj = {
+                items: items,
+                orderId: orderId,
+                dealerId: dealerId,
+                dealerLocation: dealerLocation
+            };
+            return $http.post(url, obj)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function updateMovieQuantity(productionHouseId, movieId, quantity) {
-            for(var i=0;i<productionhouses.length;i++){
-                if(productionHouseId===productionhouses[i].id){
-                    for(var j=0;j<productionhouses[i].movies.length;j++){
-                        if(movieId===productionhouses[i].movies[j].Id){
-                            productionhouses[i].movies[j].quantity-=quantity;
-                        }
-                    }
-                }
-            }
+            var url = '/api/production/'+productionHouseId+'/updateMovieQuantity';
+            var obj = {
+                movieId: movieId,
+                quantity: quantity
+            };
+            return $http.post(url, obj)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
     }

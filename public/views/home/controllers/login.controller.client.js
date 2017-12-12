@@ -32,10 +32,12 @@
             }
             else if(usertype==='productionHouse')
             {
-                var user = productionService.login(username,password);
-                console.log(user);
-                if(typeof user !== undefined)
-                    $location.url('/'+user.role+'/'+user.id+'/search');
+                productionService.login(username,password)
+                    .then(function (prod) {
+                        console.log(prod);
+                        if(typeof prod !== undefined)
+                            $location.url('/'+prod.role+'/'+prod.id+'/search');
+                    });
             }
         }
     }
