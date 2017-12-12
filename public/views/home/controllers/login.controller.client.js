@@ -22,10 +22,13 @@
             }
             else if(usertype==='dealer')
             {
-                console.log(usertype);
-                var user = dealerService.login(username,password);
-                if(typeof user !== undefined)
-                    $location.url('/'+user.role+'/'+user.id+'/search');
+
+                dealerService.login(username,password)
+                    .then(function (dealer) {
+                        console.log(dealer);
+                        if(typeof dealer !== undefined)
+                            $location.url('/'+dealer.role+'/'+dealer.id+'/search');
+                    });
             }
             else if(usertype==='productionHouse')
             {

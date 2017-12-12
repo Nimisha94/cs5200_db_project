@@ -44,7 +44,10 @@
                     myPurchases: [],
                     mySoldItems: []
                 };
-                console.log(dealerService.register(dealer));
+                dealerService.register(dealer)
+                    .then(function(dealer){
+                        console.log(dealer);
+                    });
                 $location.url('/');
             }
             else if (usertype==='productionHouse'){

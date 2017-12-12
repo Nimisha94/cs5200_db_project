@@ -19,8 +19,14 @@
                     });
             }
                 //model.user = userService.findUserById(parseInt(model.userId));
-            else if(model.role==='dealer')
-                model.user = dealerService.findDealerById(parseInt(model.userId));
+            else if(model.role==='dealer'){
+                dealerService.findDealerById(parseInt(model.userId))
+                    .then(function (dealer) {
+                        console.log(dealer);
+                        model.user = dealer;
+                    })
+            }
+
             console.log(model.user);
         }
 

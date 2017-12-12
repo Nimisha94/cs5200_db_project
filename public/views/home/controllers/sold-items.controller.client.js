@@ -11,8 +11,12 @@
         model.userId = $routeParams['userId'];
 
         function init() {
-            if(model.role==='dealer')
-                model.user = dealerService.findDealerById(parseInt(model.userId));
+            if(model.role==='dealer'){
+                dealerService.findDealerById(parseInt(model.userId))
+                    .then(function (dealer) {
+                        model.user = dealer;
+                    });
+            }
             else if(model.role==='productionHouse')
                 model.user = productionService.findProductionHouseById(parseInt(model.userId));
         }
@@ -31,7 +35,10 @@
             }
                 //userService.changeOrderStatus(orderId, userId);
             else if(model.role === 'productionHouse')
-                dealerService.changeOrderStatus(orderId, userId);
+                dealerService.changeOrderStatus(orderId, userId)
+                    .then(function (response) {
+                        
+                    });
         }
 
     }

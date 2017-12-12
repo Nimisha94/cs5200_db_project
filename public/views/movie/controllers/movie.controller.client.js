@@ -19,8 +19,12 @@
                     console.log(res);
                 });
 
-            if(model.role==='user')
-                model.dealers = dealerService.findMovie(parseInt(movieId));
+            if(model.role==='user'){
+                dealerService.findMovie(parseInt(movieId))
+                    .then(function (dealers) {
+                        model.dealers = dealers;
+                    });
+            }
             if(model.role==='dealer')
                 model.productionhouses = productionService.findMovie(parseInt(movieId));
         }
@@ -59,7 +63,10 @@
                     quantity: quantity
                 };
             }
-                dealerService.addToCart(parseInt(model.userId), d);
+                dealerService.addToCart(parseInt(model.userId), d)
+                    .then(function (res) {
+                        
+                    });
         }
     }
 })();

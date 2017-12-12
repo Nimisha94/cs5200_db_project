@@ -19,8 +19,14 @@
                     })
             }
                 //model.user = userService.findUserById(parseInt(model.userId));
-            if(model.role==='dealer')
-                model.user = dealerService.findDealerById(parseInt(model.userId));
+            if(model.role==='dealer'){
+                dealerService.findDealerById(parseInt(model.userId))
+                    .then(function (dealer) {
+                        console.log(dealer);
+                        model.user = dealer;
+                    })
+            }
+
         }
 
         init();
@@ -37,8 +43,13 @@
                     });
             }
                 //userService.removeFromCart(parseInt(model.userId),cartItem);
-            if(model.role==='dealer')
-                dealerService.removeFromCart(parseInt(model.userId), cartItem);
+            if(model.role==='dealer'){
+                dealerService.removeFromCart(parseInt(model.userId), cartItem)
+                    .then(function (response) {
+                        $route.reload();
+                    });
+            }
+
         }
 
         function placeOrder() {
@@ -55,12 +66,19 @@
                 }
                 console.log(dealer_req);
                 for(var key in dealer_req){
+                    
                     dealerService.addToSoldItems(parseInt(key),dealer_req[key],model.user.myOrders.length,
-                        parseInt(model.userId), model.user.address);
+                        parseInt(model.userId), model.user.address)
+                        .then(function (response) {
+
+                        });
                 }
                 for(var key in dealer_req){
                     for(var i=0;i<dealer_req[key].length;i++){
-                        dealerService.updateMovieQuantity(parseInt(key),dealer_req[key][i][0].id,dealer_req[key][i][1]);
+                        dealerService.updateMovieQuantity(parseInt(key),dealer_req[key][i][0].id,dealer_req[key][i][1])
+                            .then(function (response) {
+                                
+                            });
                     }
                 }
                 userService.addToOrder(parseInt(model.userId))
@@ -88,7 +106,10 @@
                         productionService.updateMovieQuantity(parseInt(key),prod_req[key][i][0].id,prod_req[key][i][1]);
                     }
                 }
-                dealerService.addToOrder(parseInt(model.userId));
+                dealerService.addToOrder(parseInt(model.userId))
+                    .then(function (response) {
+
+                });
             }
             $location.url('/'+model.role+'/'+model.userId+'/orderconfirmation');
         }

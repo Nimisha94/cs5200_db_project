@@ -39,127 +39,104 @@
             addToCart: addToCart,
             addToOrder: addToOrder,
             changeOrderStatus: changeOrderStatus,
-            updateMovieQuantity: updateMovieQuantity
+            updateMovieQuantity: updateMovieQuantity,
+            removeFromCart: removeFromCart
         };
 
         return api;
 
         function register(dealer) {
-            dealers.push(dealer);
-            console.log(dealers);
-            return dealer;
+            var url = '/api/dealer/register';
+            return $http.post(url,dealer)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function findDealerById(dealerId) {
-            for(var i=0;i<dealers.length;i++){
-                if(dealers[i].id===dealerId){
-                    return dealers[i];
-                }
-            }
+            var url = '/api/dealer/'+dealerId;
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function login(username, password) {
-            for(var i=0;i<dealers.length;i++){
-                if(dealers[i].username===username && dealers[i].password===password){
-                    return dealers[i];
-                }
-            }
-            return null;
+            var url = '/api/dealer/login?username='+username+'&password='+password;
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function findMovie(movieId) {
-            var d=[];
-            for(var i=0;i<dealers.length;i++){
-                var movies=dealers[i].movies;
-                console.log('movies--',movies[0].Id);
-                for(var j=0;j<movies.length;j++){
-                    if(movieId===movies[j].Id){
-                        var m={
-                            dealerId: dealers[i].id,
-                            dealer: dealers[i].dealerName,
-                            quant: movies[j].quantity,
-                            cost: movies[j].cost
-                        };
-                        d.push(m);
-                    }
-                }
-            }
-            return d;
+            var url = '/api/dealer/findMovie/'+movieId;
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function addToSoldItems(dealerId, items, orderId, userId, userAddress) {
-            for(var i=0;i<dealers.length;i++){
-                if(dealerId===dealers[i].id){
-                    var o={
-                        orderId: orderId,
-                        items: items,
-                        status: "Order Placed",
-                        userId: userId,
-                        userAddress: userAddress
-                    };
-                    dealers[i].mySoldItems.push(o);
-                }
-            }
-            console.log(dealers);
+            var url = '/api/dealer/'+dealerId+'/addToSoldItems';
+            var obj = {
+                items: items,
+                orderId: orderId,
+                userId: userId,
+                userAddress: userAddress
+            };
+            return $http.post(url, obj)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
-        function addToCart(userId, orderObj) {
-            for(var i=0;i<dealers.length;i++){
-                if(dealers[i].id===userId){
-                    dealers[i].cart.push(orderObj);
-                }
-            }
+        function addToCart(dealerId, orderObj) {
+            var url = '/api/dealer/'+dealerId+'/cart';
+            return $http.post(url, orderObj)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function removeFromCart(dealerId, cartItem) {
+            var url = '/api/dealer/'+dealerId+'/removeFromCart';
+            return $http.post(url,cartItem)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function addToOrder(dealerId) {
-
-            for(var i=0;i<dealers.length;i++){
-                if(dealerId===dealers[i].id){
-                    var order={
-                        id: dealers[i].myPurchases.length,
-                        items: dealers[i].cart,
-                        status: 'Order placed'
-                    };
-                    dealers[i].myPurchases.push(order);
-                    dealers[i].cart=[];
-                }
-            }
+            var url = '/api/dealer/'+dealerId+'/addToOrder';
+            return $http.post(url)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function changeOrderStatus(orderId, dealerId) {
             console.log(dealers);
-            for(var i=0;i<dealers.length;i++){
-                if(dealerId===dealers[i].id){
-                    orders=dealers[i].myPurchases;
-                    for(var j=0;j<orders.length;j++){
-                        if(orderId===orders[j].id){
-                            orders[j].status="Delivered";
-                            console.log(orders[j]);
-                            for(var k=0;k<orders[j].items.length;k++){
-                                var o={
-                                    Id: orders[j].items[k].movie.id,
-                                    quantity: orders[j].items[k].quantity,
-                                    cost: orders[j].items[k].productionHouse.cost + (orders[j].items[k].productionHouse.cost * 20/100)
-                                };
-                                dealers[i].movies.push(o);
-                            }
-
-                        }
-                    }
-                }
-            }
+            var url = '/api/dealer/'+dealerId+'/changeOrderStatus';
+            var o = {
+                orderId: orderId
+            };
+            return $http.post(url, o)
+                .then(function (response) {
+                    return response.data;
+                });
         }
 
         function updateMovieQuantity(dealerId, movieId, quantity) {
-            for(var i=0;i<dealers.length;i++){
-                if(dealerId===dealers[i].id){
-                    for(var j=0;j<dealers[i].movies.length;j++){
-                        if(movieId===dealers[i].movies[j].Id){
-                            dealers[i].movies[j].quantity-=quantity;
-                        }
-                    }
-                }
-            }
+            var url = '/api/dealer/'+dealerId+'/updateMovieQuantity';
+            var obj = {
+                movieId: movieId,
+                quantity: quantity
+            };
+            return $http.post(url, obj)
+                .then(function (response) {
+                    return response.data;
+                });
         }
     }
 })();
