@@ -32,7 +32,8 @@
             findProductionHouseById: findProductionHouseById,
             findMovie: findMovie,
             addToSoldItems: addToSoldItems,
-            updateMovieQuantity: updateMovieQuantity
+            updateMovieQuantity: updateMovieQuantity,
+            addToStock: addToStock
         };
 
         return api;
@@ -88,6 +89,19 @@
             var obj = {
                 movieId: movieId,
                 quantity: quantity
+            };
+            return $http.post(url, obj)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function addToStock(productionHouseId, movieId, quantity, cost) {
+            var url = '/api/production/'+productionHouseId+'/addToStock';
+            var obj = {
+                movieId: movieId,
+                quantity: quantity,
+                cost: cost
             };
             return $http.post(url, obj)
                 .then(function (response) {

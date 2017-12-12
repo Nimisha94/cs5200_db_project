@@ -12,6 +12,7 @@ dealerModel.addToSoldItems = addToSoldItems;
 dealerModel.findMovie = findMovie;
 dealerModel.updateMovieQuantity = updateMovieQuantity;
 dealerModel.changeOrderStatus = changeOrderStatus;
+dealerModel.addMovies = addMovies;
 
 module.exports = dealerModel;
 
@@ -89,33 +90,45 @@ function updateMovieQuantity(dealerId, movieId, quantity) {
 }
 
 function changeOrderStatus(dealerId, orderId) {
-    return dealerModel.findOneAndUpdate({'_id': new ObjectID(dealerId), 'myPurchases.id': orderId},{$set: {'myPurchases.$.status': 'Delivered'}})
-        .then(function (res) {
+    return dealerModel.findOneAndUpdate({'_id': new ObjectID(dealerId), 'myPurchases.id': orderId},{$set: {'myPurchases.$.status': 'Delivered'}});
+    /*    .then(function (res) {
             var mov = [];
-            return dealerModel.find({'_id': new ObjectID(dealerId), 'myPurchases.id': orderId}, {myPurchases:1})
-                .then(function (orders) {
-                    for(var i=0;i<orders.length;i++){
-                        for(var k=0;k<orders[i].items.length;k++){
-                            var o={
-                                Id: orders[i].items[k].movie.id,
-                                quantity: orders[i].items[k].quantity,
-                                cost: orders[i].items[k].productionHouse.cost + (orders[i].items[k].productionHouse.cost * 20/100)
-                            };
-                            mov.push(o);
-                            //dealers[i].movies.push(o);
+            return dealerModel.findOne({'_id': new ObjectID(dealerId), 'myPurchases.id': orderId})
+                .then(function (dealer) {
+                    var orders = dealer.myPurchases;
+                    var movies = dealer.movies;
+                    for(var i=0;i<orders.length;i++) {
+                        if (orderId === orders[i].id) {
+                            for (var k = 0; k < orders[i].items.length; k++) {
+                                var o = {
+                                    Id: orders[i].items[k].movie.id,
+                                    quantity: orders[i].items[k].quantity,
+                                    cost: orders[i].items[k].productionHouse.cost + (orders[i].items[k].productionHouse.cost * 20 / 100)
+                                };
+                                mov.push(o);
+                                //dealers[i].movies.push(o);
+                            }
                         }
                     }
-                    return dealerModel.update({'_id': new ObjectID(dealerId), 'myPurchases.id': orderId}, {$set: {$pushAll: {movies: o}}});
+                    return dealerModel.update({'_id': new ObjectID(dealerId)}, {$push: {movies: {$each: mov}}});
                 });
-        })
-    /*return dealerModel.findOneAndUpdate({'_id': new ObjectID(dealerId), 'myPurchases.id': orderId},{$set: {'myPurchases.$.status': 'Delivered'}})
-    .then(function (response) {
-        return dealerModel.findOne({'_id': new ObjectID(dealerId), 'myPurchases.id': orderId})
-            .then(function (dealer) {
-                var orders = dealer.myPurchases;
-                for(var i=0; i<orders.length;i++){
+        })*/
+}
 
+function addMovies(dealerId, movie) {
+    return dealerModel.findOne({'_id': new ObjectID(dealerId)})
+        .then(function (dealer) {
+            var flag = 0;
+            var movies = dealer.movies;
+            for(var i=0;i<movies.length;i++){
+                if(movie.Id===movies[i].Id){
+                    flag = 1;
+                    var q = movies[i].quantity;
+                    return dealerModel.findOneAndUpdate({'_id': new ObjectID(dealerId), 'movies.Id': movie.Id}, {$set: {'movies.$.quantity': q+movie.quantity}});
                 }
-            })
-    })*/
+            }
+            if(flag===0){
+                return dealerModel.update({'_id': new ObjectID(dealerId)}, {$push: {movies: movie}});
+            }
+        });
 }

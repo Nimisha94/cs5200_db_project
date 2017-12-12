@@ -38,6 +38,7 @@
         //event handlers
         model.getNum=getNum;
         model.addToCart=addToCart;
+        model.addToStock = addToStock;
 
         function getNum(num) {
             var a=[];
@@ -71,6 +72,13 @@
                     .then(function (res) {
                         
                     });
+        }
+        
+        function addToStock(quant, cost) {
+            productionService.addToStock(model.userId, model.movie.id, quant, cost)
+                .then(function (res) {
+
+                });
         }
     }
 })();

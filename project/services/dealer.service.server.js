@@ -36,6 +36,7 @@ app.post('/api/dealer/:dealerId/changeOrderStatus', changeOrderStatus);
 app.get('/api/dealer/findMovie/:movieId', findMovie);
 app.post('/api/dealer/:dealerId/addToSoldItems', addToSoldItems);
 app.post('/api/dealer/:dealerId/updateMovieQuantity', updateMovieQuantity);
+app.post('/api/dealer/:dealerId/addMovie', addMovies);
 
 function register(req, res) {
     /*var dealer = req.body;
@@ -145,32 +146,42 @@ function changeOrderStatus(req, res) {
     var dealerId = req.params.dealerId;
     var orderId = parseInt(req.body.orderId);
 
-    dealerModel.changeOrderStatus(dealerId,orderId)
+    dealerModel.changeOrderStatus(dealerId, orderId)
         .then(function (status) {
             res.sendStatus(200);
         }, function (err) {
             res.sendStatus(404);
         });
-    /*for(var i=0;i<dealers.length;i++){
-        if(dealerId===dealers[i].id){
-            orders=dealers[i].myPurchases;
-            for(var j=0;j<orders.length;j++){
-                if(orderId===orders[j].id){
-                    orders[j].status="Delivered";
-                    console.log(orders[j]);
-                    for(var k=0;k<orders[j].items.length;k++){
-                        var o={
-                            Id: orders[j].items[k].movie.id,
-                            quantity: orders[j].items[k].quantity,
-                            cost: orders[j].items[k].productionHouse.cost + (orders[j].items[k].productionHouse.cost * 20/100)
-                        };
-                        dealers[i].movies.push(o);
+    /*dealerModel.changeOrderStatus(dealerId,orderId)
+        .then(function (status) {
+            dealerModel.findDealerById(dealerId)
+                .then(function (dealer) {
+                    var orders = dealer.myPurchases;
+                    for(var i=0;i<orders.length;i++){
+                        if(orders[i].id === orderId){
+                            for(var j=0;j<orders[i].items.length;j++){
+                                var m = {
+                                    Id: orders[i].items[j].movie.id,
+                                    quantity: orders[i].items[j].quantity,
+                                    cost: orders[i].items[j].productionHouse.cost + (orders[i].items[j].productionHouse.cost * 20 / 100)
+                                };
+                                dealerModel.addMovies(dealerId,m)
+                                    .then(function (st) {
+                                        if(i===orders.length-1){
+                                            res.sendStatus(200);
+                                        }
+                                    }, function (err) {
+                                        res.sendStatus(404);
+                                    });
+                            }
+                        }
                     }
-
-                }
-            }
-        }
-    }*/
+                    //res.sendStatus(200);
+                })
+        }, function (err) {
+            res.sendStatus(404);
+        });
+    */
 }
 
 function findMovie(req, res) {
@@ -258,4 +269,16 @@ function updateMovieQuantity(req, res) {
         }
     }
     res.sendStatus(200);*/
+}
+
+function addMovies(req, res) {
+    var dealerId = req.params.dealerId;
+    var m = req.body.movie;
+
+    dealerModel.addMovies(dealerId, m)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        })
 }

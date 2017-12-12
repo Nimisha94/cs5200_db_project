@@ -40,7 +40,8 @@
             addToOrder: addToOrder,
             changeOrderStatus: changeOrderStatus,
             updateMovieQuantity: updateMovieQuantity,
-            removeFromCart: removeFromCart
+            removeFromCart: removeFromCart,
+            addMovies: addMovies
         };
 
         return api;
@@ -138,5 +139,18 @@
                     return response.data;
                 });
         }
+
+        function addMovies(dealerId, movie) {
+            var url = '/api/dealer/'+dealerId+'/addMovie';
+            var obj = {
+                movie: movie
+            };
+            return $http.post(url, obj)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+
     }
 })();

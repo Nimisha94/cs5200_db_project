@@ -28,6 +28,7 @@ app.get('/api/production/:prodId', findProductionHouseById);
 app.get('/api/production/findMovie/:movieId', findMovie);
 app.post('/api/production/:prodId/addToSoldItems', addToSoldItems);
 app.post('/api/production/:prodId/updateMovieQuantity', updateMovieQuantity);
+app.post('/api/production/:prodId/addToStock', addToStock);
 
 function register(req, res) {
     var productionhouse = req.body;
@@ -156,4 +157,18 @@ function updateMovieQuantity(req, res) {
         }
     }
     res.sendStatus(200);*/
+}
+
+function addToStock(req, res) {
+    var productionHouseId = req.params.prodId;
+    var movieId = parseInt(req.body.movieId);
+    var quantity = parseInt(req.body.quantity);
+    var cost = parseInt(req.body.cost);
+
+    prodModel.addToStock(productionHouseId, movieId, quantity, cost)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
 }

@@ -41,7 +41,26 @@
             else if(model.role === 'productionHouse')
                 dealerService.changeOrderStatus(orderId, userId)
                     .then(function (response) {
-                        
+                        dealerService.findDealerById(userId)
+                            .then(function (dealer) {
+                                var orders = dealer.myPurchases;
+                                for(var i=0;i<orders.length;i++){
+                                    if(orders[i].id === orderId){
+                                        for(var j=0;j<orders[i].items.length;j++){
+                                            var m = {
+                                                Id: orders[i].items[j].movie.id,
+                                                quantity: parseInt(orders[i].items[j].quantity),
+                                                cost: orders[i].items[j].productionHouse.cost + (orders[i].items[j].productionHouse.cost * 20 / 100)
+                                            };
+
+                                            dealerService.addMovies(userId,m)
+                                                .then(function (res) {
+
+                                                });
+                                        }
+                                    }
+                                }
+                            });
                     });
         }
 

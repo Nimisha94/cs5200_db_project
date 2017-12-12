@@ -68,5 +68,15 @@
                 <a ng-click="model.addToCart(d,quantity)" class="btn btn-primary login-button">Order now &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
             </div>
         </div>
+
+        <div ng-show="model.role=='productionHouse'" class="col-lg-4">
+            <br><br><br>
+            <h5>Quantity:</h5>
+            <input style="width: 50%" ng-model="quant" class="form-control" type="text">
+            <h5>Cost per Unit:</h5>
+            <input style="width: 50%" ng-model="cost" class="form-control" type="text">
+            <br>
+            <a ng-click="model.addToStock(quant, cost)" class="btn btn-success">Add to Stock</a>
+        </div>
     </div>
 </div>
