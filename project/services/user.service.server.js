@@ -1,4 +1,5 @@
 var app = require("../../express");
+var userModel=require("../model/user/user.model.server");
 
 
 var users=[{
@@ -35,28 +36,46 @@ app.post('/api/user/:userId/changeOrderStatus', changeOrderStatus);
 
 function register(req, res) {
     var user = req.body;
-    users.push(user);
+    userModel.createUser(user)
+        .then(function (user) {
+            res.json(user);
+        }, function (err) {
+            res.send(err);
+        });
+    /*users.push(user);
     console.log(users);
-    res.json(user);
+    res.json(user);*/
 }
 
 function login(req, res) {
     var username = req.query.username;
     var password = req.query.password;
-    for(var i=0;i<users.length;i++){
+    userModel.findUserByCredentials(username, password)
+        .then(function (user) {
+            res.json(user);
+        }, function (err) {
+            res.send(err);
+        });
+    /*for(var i=0;i<users.length;i++){
         if(users[i].username===username && users[i].password===password){
             res.json(users[i]);
         }
-    }
+    }*/
 }
 
 function findUserById(req, res) {
-    var userId = parseInt(req.params['userId']);
-    for(var i=0;i<users.length;i++){
+    var userId = req.params['userId'];
+    userModel.findUserById(userId)
+        .then(function (user) {
+            res.json(user);
+        }, function (err) {
+            res.send(err);
+        });
+    /*for(var i=0;i<users.length;i++){
         if(users[i].id===userId){
             res.json(users[i]);
         }
-    }
+    }*/
 }
 
 function removeFromCart(req,res){//userId, cartItem) {
@@ -80,19 +99,25 @@ function removeFromCart(req,res){//userId, cartItem) {
 }
 
 function addToCart(req, res) {
-    var userId = parseInt(req.params['userId']);
+    var userId = req.params['userId'];
     var orderObj = req.body;
-    for(var i=0;i<users.length;i++){
+    userModel.addToCart(userId,orderObj)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+    /*for(var i=0;i<users.length;i++){
         if(users[i].id===userId){
             users[i].cart.push(orderObj);
             res.status(200);
         }
-    }
+    }*/
 }
 
 function addToOrder(req, res) {
-    var userId = parseInt(req.params.userId);
-    for(var i=0;i<users.length;i++){
+    var userId = req.params.userId;
+    /*for(var i=0;i<users.length;i++){
         if(userId===users[i].id){
             var order={
                 id: users[i].myOrders.length,
@@ -102,14 +127,25 @@ function addToOrder(req, res) {
             users[i].myOrders.push(order);
             users[i].cart=[];
         }
-    }
-    res.sendStatus(200);
+    }*/
+    userModel.addToOrder(userId)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
 }
 
 function changeOrderStatus(req, res) {
-    var userId = parseInt(req.params.userId);
+    var userId = req.params.userId;
     var orderId = parseInt(req.body.orderId);
-    for(var i=0;i<users.length;i++){
+    userModel.changeOrderStatus(userId, orderId)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+    /*for(var i=0;i<users.length;i++){
         if(userId===users[i].id){
             orders=users[i].myOrders;
             for(var j=0;j<orders.length;j++){
@@ -118,8 +154,7 @@ function changeOrderStatus(req, res) {
                 }
             }
         }
-    }
-    res.sendStatus(200);
+    }*/
 }
 
 

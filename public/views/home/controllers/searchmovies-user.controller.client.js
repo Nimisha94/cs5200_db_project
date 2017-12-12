@@ -12,7 +12,7 @@
 
         function init() {
             if(model.role==='user'){
-                userService.findUserById(parseInt(model.userId))
+                userService.findUserById(model.userId)
                     .then(function (user) {
                         console.log(user);
                         model.user = user;
@@ -20,7 +20,7 @@
             }
                 //model.user = userService.findUserById(parseInt(model.userId));
             else if(model.role==='dealer'){
-                dealerService.findDealerById(parseInt(model.userId))
+                dealerService.findDealerById(model.userId)
                     .then(function (dealer) {
                         console.log(dealer);
                         model.user = dealer;
@@ -28,7 +28,7 @@
             }
 
             else if(model.role==='productionHouse')
-                productionService.findProductionHouseById(parseInt(model.userId))
+                productionService.findProductionHouseById(model.userId)
                     .then(function (prod) {
                         console.log(prod);
                         model.user = prod;

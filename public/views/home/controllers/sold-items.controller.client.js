@@ -12,13 +12,13 @@
 
         function init() {
             if(model.role==='dealer'){
-                dealerService.findDealerById(parseInt(model.userId))
+                dealerService.findDealerById(model.userId)
                     .then(function (dealer) {
                         model.user = dealer;
                     });
             }
             else if(model.role==='productionHouse'){
-                productionService.findProductionHouseById(parseInt(model.userId))
+                productionService.findProductionHouseById(model.userId)
                     .then(function (prod) {
                         model.user = prod;
                     });

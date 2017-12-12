@@ -1,4 +1,5 @@
 var app = require("../../express");
+var prodModel=require("../model/productionHouse/production.model.server");
 
 var productionhouses=[{
     id: 1,
@@ -30,33 +31,57 @@ app.post('/api/production/:prodId/updateMovieQuantity', updateMovieQuantity);
 
 function register(req, res) {
     var productionhouse = req.body;
-    productionhouses.push(productionhouse);
+    /*productionhouses.push(productionhouse);
     console.log(productionhouses);
-    res.json(productionhouse);
+    res.json(productionhouse);*/
+    prodModel.createProductionHouse(productionhouse)
+        .then(function (productionhouse) {
+            res.json(productionhouse);
+        }, function (err) {
+            res.send(err);
+        });
 }
 
 function login(req, res) {
     var username = req.query.username;
     var password = req.query.password;
-    for(var i=0;i<productionhouses.length;i++){
+    /*for(var i=0;i<productionhouses.length;i++){
         if(productionhouses[i].username===username && productionhouses[i].password===password){
             res.json(productionhouses[i]);
         }
-    }
+    }*/
+    prodModel.findProductionHouseByCredentials(username, password)
+        .then(function (user) {
+            res.json(user);
+        }, function (err) {
+            res.send(err);
+        });
 }
 
 function findProductionHouseById(req, res) {
-    var prodId = parseInt(req.params['prodId']);
-    for(var i=0;i<productionhouses.length;i++){
+    var prodId = req.params['prodId'];
+    /*for(var i=0;i<productionhouses.length;i++){
         if(productionhouses[i].id===prodId){
             res.json(productionhouses[i]);
         }
-    }
+    }*/
+    prodModel.findProductionHouseById(prodId)
+        .then(function (user) {
+            res.json(user);
+        }, function (err) {
+            res.send(err);
+        });
 }
 
 function findMovie(req, res) {
     var movieId = parseInt(req.params.movieId);
-    var d=[];
+    prodModel.findMovie(movieId)
+        .then(function (d) {
+            res.json(d);
+        }, function (err) {
+            res.json(null);
+        });
+    /*var d=[];
     for(var i=0;i<productionhouses.length;i++){
         var movies=productionhouses[i].movies;
         for(var j=0;j<movies.length;j++){
@@ -71,17 +96,30 @@ function findMovie(req, res) {
             }
         }
     }
-    res.json(d);
+    res.json(d);*/
 }
 
 function addToSoldItems(req, res) {
-    var productionHouseId = parseInt(req.params.prodId);
+    var productionHouseId = req.params.prodId;
     var items = req.body.items;
     var orderId = req.body.orderId;
     var dealerId = req.body.dealerId;
     var dealerLocation = req.body.dealerLocation;
+    var o={
+        orderId: orderId,
+        items: items,
+        status: "Order Placed",
+        dealerId: dealerId,
+        dealerLocation: dealerLocation
+    };
+    prodModel.addToSoldItems(productionHouseId,o)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (status) {
+            res.sendStatus(404);
+        });
 
-    for(var i=0;i<productionhouses.length;i++){
+    /*for(var i=0;i<productionhouses.length;i++){
         if(productionHouseId===productionhouses[i].id){
             var o={
                 orderId: orderId,
@@ -94,15 +132,21 @@ function addToSoldItems(req, res) {
         }
     }
     console.log(productionhouses);
-    res.sendStatus(200);
+    res.sendStatus(200);*/
 }
 
 function updateMovieQuantity(req, res) {
-    var productionHouseId = parseInt(req.params.prodId);
+    var productionHouseId = req.params.prodId;
     var movieId = parseInt(req.body.movieId);
     var quantity = parseInt(req.body.quantity);
 
-    for(var i=0;i<productionhouses.length;i++){
+    prodModel.updateMovieQuantity(productionHouseId, movieId, quantity)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+    /*for(var i=0;i<productionhouses.length;i++){
         if(productionHouseId===productionhouses[i].id){
             for(var j=0;j<productionhouses[i].movies.length;j++){
                 if(movieId===productionhouses[i].movies[j].Id){
@@ -111,5 +155,5 @@ function updateMovieQuantity(req, res) {
             }
         }
     }
-    res.sendStatus(200);
+    res.sendStatus(200);*/
 }

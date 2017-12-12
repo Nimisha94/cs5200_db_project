@@ -1,4 +1,5 @@
 var app = require("../../express");
+var dealerModel=require("../model/dealer/dealer.model.server");
 
 var dealers=[{
     id: 111,
@@ -37,40 +38,65 @@ app.post('/api/dealer/:dealerId/addToSoldItems', addToSoldItems);
 app.post('/api/dealer/:dealerId/updateMovieQuantity', updateMovieQuantity);
 
 function register(req, res) {
-    var dealer = req.body;
+    /*var dealer = req.body;
     dealers.push(dealer);
     console.log(dealers);
-    res.json(dealer);
+    res.json(dealer);*/
+    var dealer = req.body;
+    dealerModel.createDealer(dealer)
+        .then(function (dealer) {
+            res.json(dealer);
+        }, function (err) {
+            res.send(err);
+        });
 }
 
 function login(req, res) {
     var username = req.query.username;
     var password = req.query.password;
-    for(var i=0;i<dealers.length;i++){
+    /*for(var i=0;i<dealers.length;i++){
         if(dealers[i].username===username && dealers[i].password===password){
             res.json(dealers[i]);
         }
-    }
+    }*/
+    dealerModel.findDealerByCredentials(username, password)
+        .then(function (user) {
+            res.json(user);
+        }, function (err) {
+            res.send(err);
+        });
 }
 
 function findDealerById(req, res) {
-    var dealerId = parseInt(req.params['dealerId']);
-    for(var i=0;i<dealers.length;i++){
+    var dealerId = req.params['dealerId'];
+    dealerModel.findDealerById(dealerId)
+        .then(function (user) {
+            res.json(user);
+        }, function (err) {
+            res.send(err);
+        });
+    /*for(var i=0;i<dealers.length;i++){
         if(dealers[i].id===dealerId){
             res.json(dealers[i]);
         }
-    }
+    }*/
 }
 
 function addToCart(req, res) {
-    var dealerId = parseInt(req.params['dealerId']);
+    var dealerId = req.params['dealerId'];
     var orderObj = req.body;
-    for(var i=0;i<dealers.length;i++){
+    dealerModel.addToCart(dealerId,orderObj)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+    /*for(var i=0;i<dealers.length;i++){
         if(dealers[i].id===dealerId){
             dealers[i].cart.push(orderObj);
             res.status(200);
         }
-    }
+    }*/
 }
 
 function removeFromCart(req,res){
@@ -94,8 +120,14 @@ function removeFromCart(req,res){
 }
 
 function addToOrder(req, res) {
-    var dealerId = parseInt(req.params.dealerId);
-    for(var i=0;i<dealers.length;i++){
+    var dealerId = req.params.dealerId;
+    dealerModel.addToOrder(dealerId)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+    /*for(var i=0;i<dealers.length;i++){
         if(dealerId===dealers[i].id){
             var order={
                 id: dealers[i].myPurchases.length,
@@ -106,14 +138,20 @@ function addToOrder(req, res) {
             dealers[i].cart=[];
         }
     }
-    res.sendStatus(200);
+    res.sendStatus(200);*/
 }
 
 function changeOrderStatus(req, res) {
-    var dealerId = parseInt(req.params.dealerId);
+    var dealerId = req.params.dealerId;
     var orderId = parseInt(req.body.orderId);
 
-    for(var i=0;i<dealers.length;i++){
+    dealerModel.changeOrderStatus(dealerId,orderId)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+    /*for(var i=0;i<dealers.length;i++){
         if(dealerId===dealers[i].id){
             orders=dealers[i].myPurchases;
             for(var j=0;j<orders.length;j++){
@@ -132,12 +170,18 @@ function changeOrderStatus(req, res) {
                 }
             }
         }
-    }
+    }*/
 }
 
 function findMovie(req, res) {
     var movieId = parseInt(req.params.movieId);
-    var d=[];
+    dealerModel.findMovie(movieId)
+        .then(function (d) {
+            res.json(d);
+        }, function (err) {
+            res.json(null);
+        });
+    /*var d=[];
     for(var i=0;i<dealers.length;i++){
         var movies=dealers[i].movies;
         console.log('movies--',movies[0].Id);
@@ -153,17 +197,31 @@ function findMovie(req, res) {
             }
         }
     }
-    res.json(d);
+    res.json(d);*/
+
 }
 
 function addToSoldItems(req, res) {
-    var dealerId = parseInt(req.params.dealerId);
+    var dealerId = req.params.dealerId;
     var items = req.body.items;
     var orderId = parseInt(req.body.orderId);
-    var userId = parseInt(req.body.userId);
+    var userId = req.body.userId;
     var userAddress = req.body.userAddress;
+    var o={
+        orderId: orderId,
+        items: items,
+        status: "Order Placed",
+        userId: userId,
+        userAddress: userAddress
+    };
+    dealerModel.addToSoldItems(dealerId,o)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (status) {
+            res.sendStatus(404);
+        });
 
-    for(var i=0;i<dealers.length;i++){
+    /*for(var i=0;i<dealers.length;i++){
         if(dealerId===dealers[i].id){
             var o={
                 orderId: orderId,
@@ -176,15 +234,21 @@ function addToSoldItems(req, res) {
         }
     }
     console.log(dealers);
-    res.sendStatus(200);
+    res.sendStatus(200);*/
 }
 
 function updateMovieQuantity(req, res) {
-    var dealerId = parseInt(req.params.dealerId);
+    var dealerId = req.params.dealerId;
     var movieId = parseInt(req.body.movieId);
     var quantity = parseInt(req.body.quantity);
 
-    for(var i=0;i<dealers.length;i++){
+    dealerModel.updateMovieQuantity(dealerId, movieId, quantity)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+    /*for(var i=0;i<dealers.length;i++){
         if(dealerId===dealers[i].id){
             for(var j=0;j<dealers[i].movies.length;j++){
                 if(movieId===dealers[i].movies[j].Id){
@@ -193,5 +257,5 @@ function updateMovieQuantity(req, res) {
             }
         }
     }
-    res.sendStatus(200);
+    res.sendStatus(200);*/
 }

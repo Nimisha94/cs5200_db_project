@@ -55,7 +55,7 @@
                     dealer: dealer,
                     quantity: quantity
                 };
-                userService.addToCart(parseInt(model.userId), d)
+                userService.addToCart(model.userId, d)
                     .then(function (res) {
 
                     });
@@ -67,7 +67,7 @@
                     quantity: quantity
                 };
             }
-                dealerService.addToCart(parseInt(model.userId), d)
+                dealerService.addToCart(model.userId, d)
                     .then(function (res) {
                         
                     });

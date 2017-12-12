@@ -12,7 +12,7 @@
 
         function init() {
             if(model.role==='user'){
-                userService.findUserById(parseInt(model.userId))
+                userService.findUserById(model.userId)
                     .then(function (user) {
                         console.log(user);
                         model.user = user;
@@ -20,7 +20,7 @@
             }
                 //model.user = userService.findUserById(parseInt(model.userId));
             if(model.role==='dealer'){
-                dealerService.findDealerById(parseInt(model.userId))
+                dealerService.findDealerById(model.userId)
                     .then(function (dealer) {
                         console.log(dealer);
                         model.user = dealer;
@@ -67,21 +67,21 @@
                 console.log(dealer_req);
                 for(var key in dealer_req){
                     
-                    dealerService.addToSoldItems(parseInt(key),dealer_req[key],model.user.myOrders.length,
-                        parseInt(model.userId), model.user.address)
+                    dealerService.addToSoldItems(key,dealer_req[key],model.user.myOrders.length,
+                        model.userId, model.user.address)
                         .then(function (response) {
 
                         });
                 }
                 for(var key in dealer_req){
                     for(var i=0;i<dealer_req[key].length;i++){
-                        dealerService.updateMovieQuantity(parseInt(key),dealer_req[key][i][0].id,dealer_req[key][i][1])
+                        dealerService.updateMovieQuantity(key,dealer_req[key][i][0].id,dealer_req[key][i][1])
                             .then(function (response) {
                                 
                             });
                     }
                 }
-                userService.addToOrder(parseInt(model.userId))
+                userService.addToOrder(model.userId)
                     .then(function (response) {
 
                     });
@@ -98,15 +98,15 @@
                 }
                 console.log(prod_req);
                 for(var key in prod_req){
-                    productionService.addToSoldItems(parseInt(key),prod_req[key],model.user.myPurchases.length,
-                        parseInt(model.userId), model.user.dealerLocation);
+                    productionService.addToSoldItems(key,prod_req[key],model.user.myPurchases.length,
+                        model.userId, model.user.dealerLocation);
                 }
                 for(var key in prod_req){
                     for(var i=0;i<prod_req[key].length;i++){
-                        productionService.updateMovieQuantity(parseInt(key),prod_req[key][i][0].id,prod_req[key][i][1]);
+                        productionService.updateMovieQuantity(key,prod_req[key][i][0].id,prod_req[key][i][1]);
                     }
                 }
-                dealerService.addToOrder(parseInt(model.userId))
+                dealerService.addToOrder(model.userId)
                     .then(function (response) {
 
                 });

@@ -15,7 +15,6 @@
             //var user=null;
             if (usertype==='user'){
                 var user = {
-                    id: 123,
                     username: username,
                     password: password,
                     role: usertype,
@@ -33,16 +32,11 @@
             }
             else if (usertype==='dealer'){
                 var dealer = {
-                    id: 234,
                     username: username,
                     password: password,
                     role: usertype,
                     dealerName: dealerName,
-                    dealerLocation: dealerLocation,
-                    movies: [{Id:985, quantity: 3, cost: 25},{Id:984, quantity: 3, cost: 10}],
-                    cart: [],
-                    myPurchases: [],
-                    mySoldItems: []
+                    dealerLocation: dealerLocation
                 };
                 dealerService.register(dealer)
                     .then(function(dealer){
@@ -52,14 +46,11 @@
             }
             else if (usertype==='productionHouse'){
                 var productionHouse = {
-                    id: 456,
                     username: username,
                     password: password,
                     role: usertype,
                     productionHouseName: productionHouseName,
-                    location: location,
-                    movies: [{Id:981, quantity: 200, cost: 25},{Id:982, quantity: 300, cost: 10}],
-                    mySoldItems: []
+                    location: location
                 };
                 productionService.register(productionHouse)
                     .then(function (prod) {
