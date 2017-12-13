@@ -13,6 +13,9 @@
 
         function init() {
 
+            model.flag=true;
+            model.stock=true;
+
             movieService.getMovie(movieId)
                 .then(function (res) {
                     model.movie=res;
@@ -20,16 +23,33 @@
                 });
 
             if(model.role==='user'){
+                userService.findUserById(model.userId)
+                    .then(function (user) {
+                        model.user = user;
+                    });
+
                 dealerService.findMovie(parseInt(movieId))
                     .then(function (dealers) {
                         model.dealers = dealers;
                     });
             }
             if(model.role==='dealer') {
+                dealerService.findDealerById(model.userId)
+                    .then(function (dealer) {
+                        model.user = dealer;
+                    });
+
                 productionService.findMovie(parseInt(movieId))
                     .then(function (productionhouses) {
                         model.productionhouses = productionhouses;
                     })
+            }
+
+            if(model.role==='productionHouse'){
+                productionService.findProductionHouseById(model.userId)
+                    .then(function (prod) {
+                        model.user = prod;
+                    });
             }
         }
 
@@ -48,6 +68,7 @@
         }
 
         function addToCart(dealer, quantity) {
+            model.flag=false;
 
             if(model.role==='user')
             {
@@ -75,6 +96,7 @@
         }
         
         function addToStock(quant, cost) {
+            model.stock=false;
             productionService.addToStock(model.userId, model.movie.id, quant, cost)
                 .then(function (res) {
 

@@ -15,6 +15,11 @@
                 controller: 'RegisterController',
                 controllerAs:'model'
             })
+            .when('/search', {
+                templateUrl: 'views/home/templates/searchmovies-anonymous.view.client.html',
+                controller: 'SearchMoviesAnonymousController',
+                controllerAs:'model'
+            })
             .when('/:role/:userId/search', {
                 templateUrl: 'views/home/templates/searchmovies-user.view.client.html',
                 controller: 'SearchMoviesUserController',
@@ -23,6 +28,11 @@
             .when('/:role/:userId/movie/:movieId', {
                 templateUrl: 'views/movie/templates/movie.view.client.html',
                 controller: 'MovieController',
+                controllerAs:'model'
+            })
+            .when('/movie/:movieId', {
+                templateUrl: 'views/movie/templates/movie-anonymous.view.client.html',
+                controller: 'MovieAnonymousController',
                 controllerAs:'model'
             })
             .when('/:role/:userId/cart', {
@@ -44,6 +54,11 @@
                 templateUrl: 'views/home/templates/sold-items.view.client.html',
                 controller: 'SoldItemsController',
                 controllerAs:'model'
+            })
+            .when('/admin',{
+                templateUrl: 'views/admin/templates/admin.view.client.html',
+                controller: 'AdminController',
+                controllerAs: 'model'
             })
     }
 })();

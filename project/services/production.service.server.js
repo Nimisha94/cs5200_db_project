@@ -24,6 +24,9 @@ var productionhouses=[{
 
 app.post('/api/production/register', register);
 app.get('/api/production/login', login);
+app.get('/api/production/findAllProds', findAllProds);
+app.delete('/api/production/:prodId', deleteProd);
+app.put('/api/production/:prodId', updateProd);
 app.get('/api/production/:prodId', findProductionHouseById);
 app.get('/api/production/findMovie/:movieId', findMovie);
 app.post('/api/production/:prodId/addToSoldItems', addToSoldItems);
@@ -170,5 +173,40 @@ function addToStock(req, res) {
             res.sendStatus(200);
         }, function (err) {
             res.sendStatus(404);
+        });
+}
+
+function findAllProds(req, res) {
+    prodModel.findAllProds()
+        .then(function (prods) {
+            res.json(prods);
+        }, function (err) {
+            res.send(err);
+        });
+}
+
+function deleteProd(req, res) {
+    var prodId = req.params.prodId;
+    prodModel.deleteProd(prodId)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+}
+
+function updateProd(req, res) {
+    var prodId=req.params.prodId;
+    var prod=req.body;
+    prodModel.findProductionHouseById(prod._id)
+        .then(function (prodObj) {
+            prodModel.updateProd(prodId, prod)
+                .then(function (status) {
+                    res.sendStatus(200);
+                }, function (err) {
+                    res.sendStatus(404);
+                });
+        }, function (err) {
+            console.log(err);
         });
 }

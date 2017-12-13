@@ -30,6 +30,23 @@
                     });
                 $location.url('/');
             }
+            else if (usertype==='admin'){
+                var user = {
+                    username: username,
+                    password: password,
+                    role: 'admin',
+                    firstName: firstname,
+                    lastName: lastname,
+                    address: address,
+                    cart: [],
+                    myOrders:[]
+                };
+                userService.register(user)
+                    .then(function (user) {
+                        console.log(user);
+                    });
+                $location.url('/');
+            }
             else if (usertype==='dealer'){
                 var dealer = {
                     username: username,

@@ -10,6 +10,9 @@ prodModel.findMovie = findMovie;
 prodModel.addToSoldItems = addToSoldItems;
 prodModel.updateMovieQuantity = updateMovieQuantity;
 prodModel.addToStock = addToStock;
+prodModel.findAllProds = findAllProds;
+prodModel.deleteProd = deleteProd;
+prodModel.updateProd = updateProd;
 
 module.exports = prodModel;
 
@@ -88,4 +91,16 @@ function addToStock(prodId, movieId, quantity, cost) {
                 }
             }
         });
+}
+
+function findAllProds() {
+    return prodModel.find();
+}
+
+function deleteProd(prodId) {
+    return prodModel.remove({_id: new ObjectID(prodId)});
+}
+
+function updateProd(prodId, prod) {
+    return prodModel.update({_id: new ObjectID(prodId)}, {$set: prod});
 }

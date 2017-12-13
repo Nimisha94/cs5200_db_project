@@ -6,7 +6,6 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Home</a></li>
         <li><a href="#!/">Login</a></li>
         <li><a href="#!/register">Register</a></li>
     </ul>
@@ -57,6 +56,13 @@
             <label class="form-check-label">
                 <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typeproductionhouse" ng-value="'productionHouse'">
                 Production House
+            </label>
+        </div>
+
+        <div class="form-check">
+            <label class="form-check-label">
+                <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typeadmin" ng-value="'admin'">
+                Admin
             </label>
         </div>
 

@@ -10,6 +10,9 @@ userModel.findUserById = findUserById;
 userModel.addToCart = addToCart;
 userModel.addToOrder = addToOrder;
 userModel.changeOrderStatus = changeOrderStatus;
+userModel.findAllUsers = findAllUsers;
+userModel.deleteUser = deleteUser;
+userModel.updateUser = updateUser;
 
 module.exports = userModel;
 
@@ -55,4 +58,16 @@ function changeOrderStatus(userId, orderId) {
                 }
             }
         })*/
+}
+
+function findAllUsers() {
+    return userModel.find();
+}
+
+function deleteUser(userId) {
+    return userModel.remove({_id: new ObjectID(userId)});
+}
+
+function updateUser(userId, user) {
+    return userModel.update({_id: new ObjectID(userId)}, {$set: user});
 }

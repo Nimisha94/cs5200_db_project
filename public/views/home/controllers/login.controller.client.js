@@ -11,6 +11,15 @@
         
         function login(username, password, usertype) {
 
+            if(usertype=='admin'){
+                userService.login(username,password)
+                    .then(function (user) {
+                        console.log(user);
+                        if(typeof user !== undefined)
+                            $location.url('/admin');
+                    });
+            }
+
             if(usertype==='user')
             {
                 userService.login(username,password)

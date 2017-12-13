@@ -1,0 +1,150 @@
+<nav class="navbar navbar-default bg-success">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Moviez</a>
+    </div>
+    <ul class="nav navbar-nav">
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#!/">Logout</a></li>
+    </ul>
+    
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div style="padding-left: 10%" class="form-group row">
+        <h4> Make a Selection! </h4>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typeuser" ng-value="'user'" checked>
+                User
+            </label>
+        </div>
+
+        <div class="form-check">
+            <label class="form-check-label">
+                <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typedealer" ng-value="'dealer'">
+                Dealer
+            </label>
+        </div>
+
+        <div class="form-check">
+            <label class="form-check-label">
+                <input ng-model="usertype" type="radio" class="form-check-input" name="usertypes" id="typeproductionhouse" ng-value="'productionHouse'">
+                Production House
+            </label>
+        </div>
+
+    </div>
+    <div ng-show="usertype=='user'">
+        <h1>Users</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Password</th>
+                <th>Address</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input ng-model="model.user.username" placeholder="Username"></td>
+                <td><input  ng-model="model.user.firstName"placeholder="Firstname"></td>
+                <td><input ng-model="model.user.lastName" placeholder="Lastname"></td>
+                <td><input type="password" ng-model="model.user.password" placeholder="Password"></td>
+                <td><input ng-model="model.user.address" placeholder="Address"></td>
+                <td><a ng-click="model.updateUser()"><i class="fa fa-check" aria-hidden="true"></i></a></td>
+                <td><a ng-click="model.createUser()"><i class="fa fa-plus" aria-hidden="true"></i></a></td>
+                <td></td>
+            </tr>
+            <em ng-show="model.users.length === 0" >No users found</em>
+            <tr ng-repeat="user in model.users">
+                <td>{{user.username}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.password}}</td>
+                <td>{{user.address}}</td>
+                <td><a ng-click="model.getUser(user._id)"><i class="fa fa-cog" aria-hidden="true"></i></a></td>
+                <td><a ng-click="model.deleteUser(user._id)"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-show="usertype=='dealer'">
+        <h1>Dealers</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Dealer Name</th>
+                <th>Password</th>
+                <th>Dealer Location</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input ng-model="model.dealer.username" placeholder="Username"></td>
+                <td><input  ng-model="model.dealer.dealerName"placeholder="Firstname"></td>
+                <td><input type="password" ng-model="model.dealer.password" placeholder="Password"></td>
+                <td><input ng-model="model.dealer.dealerLocation" placeholder="Address"></td>
+                <td><a ng-click="model.updateDealer()"><i class="fa fa-check" aria-hidden="true"></i></a></td>
+                <td><a ng-click="model.createDealer()"><i class="fa fa-plus" aria-hidden="true"></i></a></td>
+                <td></td>
+            </tr>
+            <em ng-show="model.dealers.length === 0" >No dealers found</em>
+            <tr ng-repeat="dealer in model.dealers">
+                <td>{{dealer.username}}</td>
+                <td>{{dealer.dealerName}}</td>
+                <td>{{dealer.password}}</td>
+                <td>{{dealer.dealerLocation}}</td>
+                <td><a ng-click="model.getDealer(dealer._id)"><i class="fa fa-cog" aria-hidden="true"></i></a></td>
+                <td><a ng-click="model.deleteDealer(dealer._id)"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-show="usertype=='productionHouse'">
+        <h1>Production Houses</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Production house Name</th>
+                <th>Password</th>
+                <th>Production house Location</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input ng-model="model.prod.username" placeholder="Username"></td>
+                <td><input  ng-model="model.prod.productionHouseName"placeholder="Firstname"></td>
+                <td><input type="password" ng-model="model.prod.password" placeholder="Password"></td>
+                <td><input ng-model="model.prod.location" placeholder="Address"></td>
+                <td><a ng-click="model.updateProd()"><i class="fa fa-check" aria-hidden="true"></i></a></td>
+                <td><a ng-click="model.createProd()"><i class="fa fa-plus" aria-hidden="true"></i></a></td>
+                <td></td>
+            </tr>
+            <em ng-show="model.prods.length === 0" >No production houses found</em>
+            <tr ng-repeat="prod in model.prods">
+                <td>{{prod.username}}</td>
+                <td>{{prod.productionHouseName}}</td>
+                <td>{{prod.password}}</td>
+                <td>{{prod.location}}</td>
+                <td><a ng-click="model.getProd(prod._id)"><i class="fa fa-cog" aria-hidden="true"></i></a></td>
+                <td><a ng-click="model.deleteProd(prod._id)"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

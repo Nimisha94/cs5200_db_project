@@ -13,6 +13,10 @@ dealerModel.findMovie = findMovie;
 dealerModel.updateMovieQuantity = updateMovieQuantity;
 dealerModel.changeOrderStatus = changeOrderStatus;
 dealerModel.addMovies = addMovies;
+dealerModel.findAllDealers = findAllDealers;
+dealerModel.deleteDealer = deleteDealer;
+dealerModel.updateDealer = updateDealer;
+dealerModel.changeSoldItemsOrder = changeSoldItemsOrder;
 
 module.exports = dealerModel;
 
@@ -131,4 +135,20 @@ function addMovies(dealerId, movie) {
                 return dealerModel.update({'_id': new ObjectID(dealerId)}, {$push: {movies: movie}});
             }
         });
+}
+
+function findAllDealers() {
+    return dealerModel.find();
+}
+
+function deleteDealer(dealerId) {
+    return dealerModel.remove({_id: new ObjectID(dealerId)});
+}
+
+function updateDealer(dealerId, dealer) {
+    return dealerModel.update({_id: new ObjectID(dealerId)}, {$set: dealer});
+}
+
+function changeSoldItemsOrder(dealerId, userId, orderId) {
+    return dealerModel.findOneAndUpdate({'_id': new ObjectID(dealerId), 'mySoldItems.orderId': orderId, 'mySoldItems.userId': userId},{$set: {'mySoldItems.$.status': 'Delivered'}});
 }

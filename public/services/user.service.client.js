@@ -13,7 +13,10 @@
             findUserById: findUserById,
             removeFromCart: removeFromCart,
             addToOrder: addToOrder,
-            changeOrderStatus: changeOrderStatus
+            changeOrderStatus: changeOrderStatus,
+            findAllUsers: findAllUsers,
+            deleteUser: deleteUser,
+            updateUser: updateUser
         };
 
         return api;
@@ -76,5 +79,30 @@
                     return response.data;
                 });
         }
+
+        function findAllUsers() {
+            var url = '/api/user/findAllUsers';
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function deleteUser(userId) {
+            var url = '/api/user/'+userId;
+            return $http.delete(url)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function updateUser(user) {
+            var url = '/api/user/'+user._id;
+            return $http.put(url, user)
+                .then(function (resp) {
+                    return resp.data;
+                });
+        }
+
     }
 })();

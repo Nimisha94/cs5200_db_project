@@ -28,6 +28,9 @@ var dealers=[{
 
 app.post('/api/dealer/register', register);
 app.get('/api/dealer/login', login);
+app.get('/api/dealer/findAllDealers', findAllDealers);
+app.delete('/api/dealer/:dealerId', deleteDealer);
+app.put('/api/dealer/:dealerId', updateDealer);
 app.get('/api/dealer/:dealerId', findDealerById);
 app.post('/api/dealer/:dealerId/cart', addToCart);
 app.post('/api/dealer/:dealerId/removeFromCart', removeFromCart);
@@ -37,6 +40,7 @@ app.get('/api/dealer/findMovie/:movieId', findMovie);
 app.post('/api/dealer/:dealerId/addToSoldItems', addToSoldItems);
 app.post('/api/dealer/:dealerId/updateMovieQuantity', updateMovieQuantity);
 app.post('/api/dealer/:dealerId/addMovie', addMovies);
+app.post('/api/dealer/:dealerId/changeSoldItemsOrder', changeSoldItemsOrder);
 
 function register(req, res) {
     /*var dealer = req.body;
@@ -281,4 +285,51 @@ function addMovies(req, res) {
         }, function (err) {
             res.sendStatus(404);
         })
+}
+
+function findAllDealers(req, res) {
+    dealerModel.findAllDealers()
+        .then(function (dealers) {
+            res.json(dealers);
+        }, function (err) {
+            res.send(err);
+        });
+}
+
+function deleteDealer(req, res) {
+    var dealerId = req.params.dealerId;
+    dealerModel.deleteDealer(dealerId)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+}
+
+function updateDealer(req, res) {
+    var dealerId=req.params.dealerId;
+    var dealer=req.body;
+    dealerModel.findDealerById(dealer._id)
+        .then(function (dealerObj) {
+            dealerModel.updateDealer(dealerId, dealer)
+                .then(function (status) {
+                    res.sendStatus(200);
+                }, function (err) {
+                    res.sendStatus(404);
+                });
+        }, function (err) {
+            console.log(err);
+        });
+}
+
+function changeSoldItemsOrder(req, res) {
+    var dealerId = req.params.dealerId;
+    var userId = req.body.userId;
+    var orderId = req.body.orderId;
+    dealerModel.changeSoldItemsOrder(dealerId, userId, orderId)
+        .then(function (status) {
+            res.sendStatus(200);
+        },function (err) {
+            res.sendStatus(404);
+        });
 }

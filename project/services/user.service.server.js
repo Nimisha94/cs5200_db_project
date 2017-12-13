@@ -28,6 +28,9 @@ var users=[{
 
 app.post('/api/register', register);
 app.get('/api/login', login);
+app.get('/api/user/findAllUsers', findAllUsers);
+app.delete('/api/user/:userId', deleteUser);
+app.put('/api/user/:userId', updateUser);
 app.get('/api/user/:userId', findUserById);
 app.post('/api/user/:userId/cart', addToCart);
 app.post('/api/user/:userId/removeFromCart', removeFromCart);
@@ -156,5 +159,41 @@ function changeOrderStatus(req, res) {
         }
     }*/
 }
+
+function findAllUsers(req, res) {
+    userModel.findAllUsers()
+        .then(function (users) {
+            res.json(users);
+        }, function (err) {
+            res.send(err);
+        });
+}
+
+function deleteUser(req, res) {
+    var userId = req.params.userId;
+    userModel.deleteUser(userId)
+        .then(function (status) {
+            res.sendStatus(200);
+        }, function (err) {
+            res.sendStatus(404);
+        });
+}
+
+function updateUser(req, res) {
+    var userId=req.params.userId;
+    var user=req.body;
+    userModel.findUserById(user._id)
+        .then(function (userObj) {
+            userModel.updateUser(userId, user)
+                .then(function (status) {
+                    res.sendStatus(200);
+                }, function (err) {
+                    res.sendStatus(404);
+                });
+        }, function (err) {
+            console.log(err);
+        });
+}
+
 
 

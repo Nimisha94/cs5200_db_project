@@ -33,7 +33,10 @@
             findMovie: findMovie,
             addToSoldItems: addToSoldItems,
             updateMovieQuantity: updateMovieQuantity,
-            addToStock: addToStock
+            addToStock: addToStock,
+            findAllProds: findAllProds,
+            deleteProd: deleteProd,
+            updateProd: updateProd
         };
 
         return api;
@@ -106,6 +109,30 @@
             return $http.post(url, obj)
                 .then(function (response) {
                     return response.data;
+                });
+        }
+
+        function findAllProds() {
+            var url = '/api/production/findAllProds';
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function deleteProd(prodId) {
+            var url = '/api/production/'+prodId;
+            return $http.delete(url)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function updateProd(prod) {
+            var url = '/api/production/'+prod._id;
+            return $http.put(url, prod)
+                .then(function (resp) {
+                    return resp.data;
                 });
         }
 

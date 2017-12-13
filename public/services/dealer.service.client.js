@@ -41,7 +41,11 @@
             changeOrderStatus: changeOrderStatus,
             updateMovieQuantity: updateMovieQuantity,
             removeFromCart: removeFromCart,
-            addMovies: addMovies
+            addMovies: addMovies,
+            findAllDealers: findAllDealers,
+            deleteDealer: deleteDealer,
+            updateDealer: updateDealer,
+            changeSoldItemsOrder: changeSoldItemsOrder
         };
 
         return api;
@@ -151,6 +155,41 @@
                 });
         }
 
+        function findAllDealers() {
+            var url = '/api/dealer/findAllDealers';
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function deleteDealer(dealerId) {
+            var url = '/api/dealer/'+dealerId;
+            return $http.delete(url)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function updateDealer(dealer) {
+            var url = '/api/dealer/'+dealer._id;
+            return $http.put(url, dealer)
+                .then(function (resp) {
+                    return resp.data;
+                });
+        }
+
+        function changeSoldItemsOrder(dealerId, orderId, userId) {
+            var url = '/api/dealer/'+dealerId+'/changeSoldItemsOrder';
+            var obj = {
+                orderId: orderId,
+                userId: userId
+            };
+            return $http.post(url, obj)
+                .then(function (resp) {
+                    return resp.data;
+                });
+        }
 
     }
 })();

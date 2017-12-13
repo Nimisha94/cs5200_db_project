@@ -6,14 +6,18 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#!/{{model.role}}/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-        <li><a href="#!/{{model.role}}/{{model.userId}}/order">Orders</a></li>
-        <li><a href="#!/">Login</a></li>
-        <li><a href="#!/register">Register</a></li>
+        <li><a>Hello {{model.user.username}}</a></li>
+        <li ng-show="model.role==='user'"><a href="#!/{{model.role}}/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+        <li ng-show="model.role==='user'"><a href="#!/{{model.role}}/{{model.userId}}/order">Orders</a></li>
+        <li ng-show="model.role==='dealer'"><a href="#!/{{model.role}}/{{model.userId}}/cart">Cart&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+        <li ng-show="model.role==='dealer'"><a href="#!/{{model.role}}/{{model.userId}}/order">Orders</a></li>
+        <li ng-show="model.user.role==='dealer'"><a href="#!/{{model.role}}/{{model.userId}}/soldItems">My Sold Items</a></li>
+        <li ng-show="model.user.role==='productionHouse'"><a href="#!/{{model.role}}/{{model.userId}}/soldItems">My Sold Items</a></li>
+        <li><a href="#!/">Logout</a></li>
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#!/search" class="glyphicon glyphicon-search proj-navbar-color"></a></li>
+        <li><a href="#!/{{model.role}}/{{model.userId}}/search" class="glyphicon glyphicon-search proj-navbar-color"></a></li>
     </ul>
     </div>
 </nav>
@@ -52,7 +56,8 @@
                     <h5>Cost: ${{d.cost}}</h5>
                     <input style="width: 50%" ng-model="quantity" class="form-control" type="text">
                     <br>
-                    <a ng-click="model.addToCart(d,quantity)" class="btn btn-primary login-button">Order now &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    <a ng-show="model.flag==true" ng-click="model.addToCart(d,quantity)" class="btn btn-primary login-button">Add to Cart &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    <a ng-show="model.flag==false" class="btn btn-success">Added to cart</a>
             </div>
         </div>
 
@@ -76,7 +81,8 @@
             <h5>Cost per Unit:</h5>
             <input style="width: 50%" ng-model="cost" class="form-control" type="text">
             <br>
-            <a ng-click="model.addToStock(quant, cost)" class="btn btn-success">Add to Stock</a>
+            <a ng-show="model.stock==true" ng-click="model.addToStock(quant, cost)" class="btn btn-success">Add to Stock</a>
+            <a ng-show="model.stock==false" class="btn btn-danger">Added to stock</a>
         </div>
     </div>
 </div>
